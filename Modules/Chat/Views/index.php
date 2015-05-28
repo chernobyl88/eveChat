@@ -12,6 +12,7 @@ function check(base, data) {
 		else
 			if(data.entity && data.entity.valid == 0)
 				if (data.entity.error && data.entity.error.entity.length > 0) {
+					$.each(data.entity.error.entity, function(key, data) {
 						alert(data);
 					});
 				} else 
