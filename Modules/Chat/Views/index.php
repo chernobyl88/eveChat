@@ -1,3 +1,8 @@
+<script type="text/javascript">
+<!--
+
+//-->
+</script>
 <div>
 	<form method="post" action="check.php">
 		<div>
