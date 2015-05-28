@@ -47,7 +47,14 @@ class ChatController extends \Library\BackController {
 	public function executeCheck(\Library\HTTPRequest $request) {
 		$this->page()->addVar("isValid", 1);
 		
+		$this->page()->setIsJson();
+		
+	}
+	public function executeTech (\Library\HTTPRequest $request) {
+		$tech = $this->managers()->getManagersOf("user")
+		
+		if ($tech =  -1);
+		$this->page() ->addVar("");
 	}
 }
-
 ?>
