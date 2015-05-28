@@ -1,10 +1,26 @@
 <script type="text/javascript">
-<!--
 
-//-->
+function check(base, data) {
+	$.ajax({
+		"dataType": "Json",
+		"type":"post",
+	    "data": data,//$('#details').serialise(),
+	    "url": base+"/chat/check.html"
+	}).done(function(data) {
+		if(data.entity&&data.entity.valid == 1)
+			$(window).attr("location",base+"/chat/chat.html");
+		else
+			if(data.entity&&data.entity.valid == 0)
+				$(window).attr("location", base+"/chat/check.html");
+		
+	}).fail(function(xhr,error){
+		alert(error);
+	});
+}
+
 </script>
 <div>
-	<form method="post" action="check.php">
+	<form id="formulaire" method="post" action="check.php">
 		<div>
 			<div>
 				<div>
