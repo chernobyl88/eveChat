@@ -51,10 +51,19 @@ class ChatController extends \Library\BackController {
 		
 	}
 	public function executeTech (\Library\HTTPRequest $request) {
-		$tech = $this->managers()->getManagersOf("user")
+		$userManager = $this->managers()->getManagersOf("user");
 		
-		if ($tech =  -1);
-		$this->page() ->addVar("");
+		$user = $userManager->get($this->app->user()->id());
+		
+		$tech = $listeTech[rand(0, (count($listeTect)-1))];
+		
+		
+		if ($user == null) {
+		
+		} else {
+			
+		}
+		$this->page() ->addVar("error");
 	}
 }
 ?>

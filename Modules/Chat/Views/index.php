@@ -21,7 +21,9 @@
 					<select name="request">
 					<?php
 					foreach($listeReq AS $elem) {
-						echo "<option value='" . $elem["id"] . "'>" . $elem["cst_type"] . "</option>";
+						?>
+						<option value="<?php echo$elem["id"]?>"><?php echo $elem["cst_type"]?></option>
+						<?php
 					}
 					?>
 					</select>
