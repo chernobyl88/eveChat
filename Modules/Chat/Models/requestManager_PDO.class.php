@@ -42,7 +42,7 @@ class requestManager_PDO extends \Library\Manager_PDO implements requestManager 
 		$query->execute();
 		
 		return $query->fetchAll(\PDO::FETCH_ASSOC);
-	}
+	}	
 }
 
 ?>

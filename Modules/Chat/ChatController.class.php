@@ -48,22 +48,49 @@ class ChatController extends \Library\BackController {
 		$this->page()->addVar("isValid", 1);
 		
 		$this->page()->setIsJson();
-		
 	}
 	public function executeTech (\Library\HTTPRequest $request) {
-		$userManager = $this->managers()->getManagersOf("user");
+		$error = array();
 		
-		$user = $userManager->get($this->app->user()->id());
-		
-		$tech = $listeTech[rand(0, (count($listeTect)-1))];
-		
-		
-		if ($user == null) {
-		
-		} else {
+		if ($this->app->user()->isAuthenticated()  || $request->existPost("mail") || $request->existPost("request") || $problem->existPost("problem") || $agree->existPost("agree")) {
 			
+			if ((($this->app->user()->isAuthenticated() && !$request->existPost("mail")) || $request->existPost("mail")) && $request->existPost("request") && $agree->existPost("agree")) {
+				
+				if (\Utils::testEmail($request->dataPost("mail"))) {
+					$this->app()->user()->setAttribute("mail", $request->dataPost("mail"));
+				} else {
+					$error[] = INVALID_EMAIL;
+				}
+				
+			} else {
+				$error[] = MISS_DATA;
+			}
+				
+		} else {
+			if (!($this->app()->user()->getAttribute("mail") != null && $request->existPost("request") && $problem->existPost("problem"))) {
+				$error[] = MISTAKE;
+			}
+				
 		}
-		$this->page() ->addVar("error");
+		
+		if (count($error) == 0) {
+			$answerManager = $this->managers()->getManagersOf("answer");
+			
+			$listeTech = $answerManager->getListTechDispoId();
+		}
+		
+		if (!(count($error) == 0) && count($listeTech)) {
+			$tech = $listeTech[rand(0, (count($listeTect)-1))];
+			
+			$this->page()->addVar("valid", 1);
+			
+		} else {
+			$this->page()->addVar("valid", 0);
+			
+			$this->page()->addVar("error", $error);
+		}
+		$this->page()->setIsJson();
+		
 	}
 }
 ?>
