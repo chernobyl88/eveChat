@@ -35,7 +35,7 @@ function check(base, data) {
 				</div>
 				
 				<div>
-					<input type = text name= "mail" id= "mail" size = "50" maxlength = "15" />
+					<input id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" />
 				</div>
 			</div>
 			<div>
