@@ -167,7 +167,9 @@ class HTTPRequest extends ApplicationComponent{
 		if(preg_match("/lang-([a-z]+)/", $uri, $match)){
 			
 			$this->lang = $match[1];
-			$uri = strstr(substr($uri, 1), '/');
+			$uri = strstr(substr($uri, 2), '/');
+		} else {
+			$uri = substr($uri, 1);
 		}
 		
 		return $uri;
