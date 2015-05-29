@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>EVE</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-		<link rel=stylesheet type="text/css" href="../../../Web/css/bootstrap.css">
+		<link rel=stylesheet type="text/css" href="eve/Web/css/bootstrap.css">
 	</head>
 	<body>
 	
@@ -17,9 +17,6 @@
 	?>
 	
 		<?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>
-		<?php echo $root."pouette";?>
-		<p>proot</p>
 		<?php echo $content;?>
-		
 	</body>
 </html>

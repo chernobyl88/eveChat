@@ -19,7 +19,7 @@ class Config extends \Library\AppConfig{
 	const BDD_HOST = "localhost";
 	const BDD_NAME = "eve";
 	const BDD_USER = "root";
-	const BDD_PASSWORD = "";
+	const BDD_PASSWORD = "admin";
 	
 	const MAX_ADMIN_LVL = 10;
 	

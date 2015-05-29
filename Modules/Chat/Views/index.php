@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
 
 function check(base, data) {
@@ -26,8 +25,6 @@ function check(base, data) {
 
 </script>
 <div>
-	<?php echo "pouette";?>
-					<p>proot</p>
 	<form id="formulaire" method="post" action="check.php">
 		<div>
 			<div>
@@ -37,8 +34,8 @@ function check(base, data) {
 					?>
 				</div>
 				
-				<div class="form-group">
-					<input class="form-control" id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" />
+				<div>
+					<input id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" />
 				</div>
 			</div>
 			<div>
@@ -46,7 +43,6 @@ function check(base, data) {
 					<?php
 						echo INSERT_SUBJECT;
 					?>
-					
 				</div>
 					<select name="request">
 					<?php
