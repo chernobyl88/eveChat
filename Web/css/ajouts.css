@@ -1,0 +1,36 @@
+.textcenter {
+  text-align:center;
+  padding:20px;
+}
+
+.divlistederoulante {
+  margin:auto;
+  width: 100%;
+}
+
+.listederoulante {
+  width: 100%;
+}
+
+body {
+	background-image:url(../images/backParahoster.jpg);
+}
+
+
+.divlogo{
+	background : url("../images/Logo.svg") no-repeat ;
+	height:100%
+}
+
+.logo{
+	background : url("../images/Logo.svg") no-repeat ;
+}
+
+.divcadre{
+	width:35%;
+	margin: auto;
+}
+.bouton{
+float: right;
+ margin-top: 10px;
+}

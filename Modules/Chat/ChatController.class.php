@@ -92,5 +92,13 @@ class ChatController extends \Library\BackController {
 		$this->page()->setIsJson();
 		
 	}
+	
+	public function executePleinte(\Library\HTTPRequest $request) {
+		
+	}
+	
+	public function executeFeedback(\Library\HTTPRequest $request) {
+	
+	}
 }
 ?>

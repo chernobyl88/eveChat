@@ -24,27 +24,32 @@ function check(base, data) {
 }
 
 </script>
-<div>
+<div class="divlogo">
+
+</div>
+				
+<div class="divcadre">
 	<form id="formulaire" method="post" action="check.php">
 		<div>
 			<div>
-				<div>
+				<div class="textcenter">
 					<?php
 						echo ENTER_EMAIL;
 					?>
 				</div>
 				
-				<div>
-					<input id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" />
+				<div class="form-group">
+					<input class="form-control" id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" placeholder="Entrez ici votre adresse e-mail"/>
 				</div>
 			</div>
 			<div>
-				<div>
+				<div class="textcenter">
 					<?php
 						echo INSERT_SUBJECT;
 					?>
 				</div>
-					<select name="request">
+				<div class="divlistederoulante">
+					<select class="listederoulante" name="request">
 					<?php
 					foreach($listeReq AS $elem) {
 						?>
@@ -53,20 +58,21 @@ function check(base, data) {
 					}
 					?>
 					</select>
+				</div>
 				<div>
 						
 				</div>
 			</div>
 			<div>
-				<div>
+				<div class="textcenter">
 			
 					<?php 
 						echo ENTER_PROBLEM;
 					?>	
 				</div>
 				
-				<div>
-					<textarea name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
+				<div class="form-group">
+					<textarea placeholder="Entrez ici votre problème ou votre demande" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
 				</div>
 			</div>
 			<div>
@@ -78,6 +84,9 @@ function check(base, data) {
 					<input type = "checkbox" name = "agree" id = "agree" /> <label for="agree"><?php echo AGREE; ?></label>
 				</div>
 			</div>	
+			<div class="bouton">
+				<button class="btn-warning btn-lg btn" type="button">Envoyer</button>
+			</div>
 			
 		</div>
 	</form>
