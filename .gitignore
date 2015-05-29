@@ -2,3 +2,5 @@ Applications/Eve/ConfigConfig.class.php
 .project
 readfisrt.pdf
 Upload/*
+Applications/Eve/Config/Config.class.php
+Library/HTTPRequest.class.php
