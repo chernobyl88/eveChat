@@ -163,12 +163,13 @@ class HTTPRequest extends ApplicationComponent{
 	public function requestURI(){
 		
 		$uri = $this->extendUri();
-		
-		if(preg_match("/lang-([a-z]+)/", $uri, $match)){
-			
+		if(preg_match("/lang-([a-z]+)/", substr($uri, 1), $match)){
 			$this->lang = $match[1];
-			$uri = strstr(substr($uri, 1), '/');
+			$uri = strstr(substr($uri, 2), '/');
+		} else {
+			$uri = substr($uri, 1);
 		}
+		var_dump($uri);
 		
 		return $uri;
 	}
