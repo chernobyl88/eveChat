@@ -248,6 +248,7 @@ class Utils{
 			return Utils::defaultLanguage();
 		}
 	}
+
 }
 
 ?>

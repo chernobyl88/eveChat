@@ -72,7 +72,7 @@ function check(base, data) {
 				</div>
 				
 				<div class="form-group">
-					<textarea placeholder="Entrez ici votre problème ou votre demande" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
+					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
 				</div>
 			</div>
 			<div>
@@ -85,7 +85,7 @@ function check(base, data) {
 				</div>
 			</div>	
 			<div class="bouton">
-				<button class="btn-warning btn-lg btn" type="button">Envoyer</button>
+				<button class="btn-warning btn-lg btn" type="button"><?php echo SEND;?></button>
 			</div>
 			
 		</div>
