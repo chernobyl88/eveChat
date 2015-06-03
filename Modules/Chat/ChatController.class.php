@@ -178,14 +178,14 @@ class ChatController extends \Library\BackController {
 					$this->page()->addVar("listeMessage", $listeMessage);
 					
 				} else {
-					$this->page()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
+					$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
 					//renvois à la page de feedback car l'utilisateur à termier sa session
 				}
 			} else {
-				$this->page()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
 		} else {
-			$this->page()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			//renvois à la page d'acceuil si l'utilisateur n'est pas validé par les controles ci-dessus
 		}
 	}
@@ -250,7 +250,7 @@ class ChatController extends \Library\BackController {
 			$error[]= MISS_IDENTIFICATION;
 		}
 		
-	//fonction pour test ajax 
+	//fonction pour la transmistion des message sur le chat
 	}
 }
 ?>
