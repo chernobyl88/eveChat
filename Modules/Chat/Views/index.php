@@ -39,7 +39,7 @@ function check(base, data) {
 				</div>
 				
 				<div class="form-group">
-					<input class="form-control" id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" placeholder="Entrez ici votre adresse e-mail"/>
+					<input class="form-control" id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" placeholder="<?php echo MAIL_TXT; ?>"/>
 				</div>
 			</div>
 			<div>

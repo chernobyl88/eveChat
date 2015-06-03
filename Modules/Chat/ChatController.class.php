@@ -250,6 +250,7 @@ class ChatController extends \Library\BackController {
 			$error[]= MISS_IDENTIFICATION;
 		}
 		
+	//fonction pour test ajax 
 	}
 }
 ?>
