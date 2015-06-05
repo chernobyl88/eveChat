@@ -44,7 +44,7 @@ class Config {
 	 */
 	public function get($key) {
 		
-		$config = $this->manager->get(new \Library\Entities\Config(array("clef" => $key)));
+		$config = $this->manager->get(new \Library\Entities\config(array("clef" => $key)));
 		
 		if ($config != null) {
 			return $config->valeur();

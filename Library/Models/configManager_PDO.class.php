@@ -19,7 +19,7 @@ class configManager_PDO extends \Library\Manager_PDO implements configManager {
 		
 		$query->execute();
 		
-		$query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Language');
+		$query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\language');
 		
 		return $query->fetch();
 	}

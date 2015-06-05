@@ -54,22 +54,20 @@ abstract class Manager_PDO extends \Library\Manager {
 	 * @param string $model
 	 */
 	public function __construct($dao, $api, $module, $model){
-		$module = strtolower($module);
 		
 		parent::__construct($dao, $api, $module, $model);
 		
 		if ($module != null) {
-		
+			$module = strtolower($module);
+			
 			$this->table_name = $module . "_" . $model;
 			
 			$this->entity_name = "\\Modules\\" . ucfirst($module) . "\\Entities\\" . $model;
 			
 		} else {
-			
 			$this->table_name = $model;
 			
 			$this->entity_name = "\\Library\\Entities\\" . $model;
-			
 		}
 		
 		

@@ -104,7 +104,7 @@ class ChatController extends \Library\BackController {
 					
 			));
 			$userManager->send($user);
-			//Génération de la session et vérification
+			//Génération de la session et  ses vérifications
 			if ($user->id() > 0) {
 				 
 				$sessionManager = $this->managers()->getManagersOf("session");
@@ -165,6 +165,12 @@ class ChatController extends \Library\BackController {
 		
 	}
 	
+	public function executeAttente(\Library\HTTPRequest $request) {
+		if (!($this->app()->user()->getAttribute("mail") != null && $request->existPost("request") && $problem->existPost("problem"))) {
+			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang"). "/Chat");	
+			}	
+	}
+	
 	public function executeChat(\Library\HTTPRequest $request) {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($session_id)) {
@@ -199,20 +205,38 @@ class ChatController extends \Library\BackController {
 					
 					
 				} else {
-					$this->page()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
+					$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
 					//renvois à la page de feedback car l'utilisateur à termier sa session
 				}
 			} else {
-				$this->page()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+				// renvois à la page d'acceuiél si l'utlisateur n'est pas validé 
+				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
 		} else {
 			$this->page()->addVar("valid", 0);
 			
 			$this->page()->addVar("error", array(INVALID_SESSION_ID));
-			//renvois à la page d'acceuil si l'utilisateur n'est pas validé par les controles ci-dessus
+			//controle pour savoir ou sera envoyé l'utilisaeur
 		}
 		
 		$this->page()->setIsJson();
+	}
+	
+	public function executeSendMessage(\Library\HTTPRequest $request) {
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		
+		if (($sessionId) !=null && is_numeric($sessionId)) {
+			$session = $sessionManager->get($sessionId);
+			if ($session = $sessionManager->get("$session_id")) {
+				if	($session->date_fin() == null){
+					
+				}else{
+					$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
+				}
+			}else{
+				
+			}
+		}
 	}
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
@@ -241,16 +265,49 @@ class ChatController extends \Library\BackController {
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Feedback
 	public function executeFeedback(\Library\HTTPRequest $request) {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
+		$error = array();
 		
 		if($sessionId !=null && $sessionId = is_numeric($sessionId)){
-			
-			//envois le feedback
-			
+			//permet de quatifier et nomminer le feedback selon les besoin
+			$this->page()->addVar("typeQuestion", array("quality", "politess", "reponse"));
+			$this->page()->addVar("maxFeedback", (is_numeric($this->app()->config()->get("MAX_FEEDBACK"))) ? $this->app()->config()->get("MAX_FEEDBACK") : 10);
+			//vérifie si la valeur existe
+			if($request->existPost("quality") &&  $request->existPost("politess") && $request->existPost("reponse")){
+				//enregistire la valeur dans la base de données
+				$this->app()->httpRequest()->dataPost("quality");
+				$this->app()->httpRequest()->dataPost("politess");
+				$this->app()->httpRequest()->dataPost("reponse");	
+			}
 		}else {
 			$error[]= MISS_IDENTIFICATION;
 		}
 		
-	//fonction pour la transmistion des message sur le chat
+		$this->page()->addVar("listeError", $error);
+	}
+	public function executeSendFeedback(\Library\HTTPRequest $request){
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
+			
+		}
+	}
+	public function executeThanks(\Library\HTTPRequest $request){
+		
+	}
+	public function executePleinte(\Library\HTTPRequest $request){
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
+			
+		}
+	}
+	public function executeSendPleinte(\Library\HTTPRequest $request){
+		$sessionId =$this->app()->user()->getAttribute("session_id");
+		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
+			
+		}
+		
+	}
+	public function executeBan(\Library\HTTPRequest $request){
+		
 	}
 }
 ?>

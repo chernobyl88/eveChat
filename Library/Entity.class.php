@@ -253,7 +253,11 @@ abstract class Entity {
 			$class = new \ReflectionClass($this);
 			$classPart = explode("\\", $class->getName());
 			
-			$info = \Library\DataTyper::getDataType(strtolower($classPart[count($classPart)-3]), $classPart[count($classPart)-1]);
+			if (count($classPart) == 3) {
+				$info = \Library\DataTyper::getDataType(null, $classPart[count($classPart)-1]);
+			} else {
+				$info = \Library\DataTyper::getDataType(strtolower($classPart[count($classPart)-3]), $classPart[count($classPart)-1]);
+			}
 			
 			if ($info != null && key_exists($varName, $info)) {
 				$info = $info[$varName];

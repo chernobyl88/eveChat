@@ -83,8 +83,8 @@ class Managers{
 		if(!isset($this->managers[$model])){
 			switch ($location) {
 				case 0:
-					$manager = "\\Library\\Models\\";
 					$module = null;
+					$manager = "\\Library\\Models\\";
 					break;	
 				case 1:
 				default:

@@ -19,7 +19,7 @@ function autoload($class){
 		
 	$src = str_replace('.', '/', $class) . '.class.php';
 	$src = str_replace('\\', '/', $src);
-		
+
 	if(is_file($src)){
 		require($src);
 	} elseif (is_file("Settings/" . $src)) {
