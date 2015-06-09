@@ -150,8 +150,8 @@ class HTTPRequest extends ApplicationComponent{
 	 * @return string
 	 */
 	public function extendUri(){
-		//return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root)+1);
-		return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root));
+		return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root)+1);
+		//return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root));
 	}
 	
 	
@@ -167,7 +167,9 @@ class HTTPRequest extends ApplicationComponent{
 		
 		if(preg_match("/lang-([a-z]+)/", $uri, $match)){
 			$this->lang = $match[1];
-			$uri = strstr(substr($uri, 1), '/');
+			$uri = strstr(substr($uri, 2), '/');
+		} else {
+			$uri = substr($uri, 1);
 		}
 		
 		return $uri;

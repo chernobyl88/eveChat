@@ -9,7 +9,6 @@ class ChatController extends \Library\BackController {
 	public function executeIndex(\Library\HTTPRequest $request) {
 		//fonction pour lister les domaines de compétences des techniciens 
 		$this->page()->addVar("listeReq", $this->managers()->getManagersOf("request")->getListUsedRequest($this->app()->user()->getLanguage()));
-		
 	}
 	
 	/*public function executeIndex(\Library\HTTPRequest $request) {
@@ -293,7 +292,7 @@ class ChatController extends \Library\BackController {
 	public function executeThanks(\Library\HTTPRequest $request){
 		
 	}
-	public function executePleinte(\Library\HTTPRequest $request){
+	public function executePleinteé(\Library\HTTPRequest $request){
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
 			
