@@ -23,10 +23,15 @@ function check(base, data) {
 	});
 }
 
-function ('#sendfirstform').click(function(){
-	var mail = $('#mail').val();
-	var service = $('.listederoulante');
-	var probleme = $('probleme');
+$ (function () {
+	envoiFormulaire();
+		$('#sendfirstform').click(function(){
+			var mail = $('#mail').val();
+			var service = $('.listederoulante').val();
+			var probleme = $('#probleme').val();
+			$.post('check.php', {'mail' :mail, 'service' :service, 'probleme' :probleme},
+					(){
+		
 }
 
 </script>
