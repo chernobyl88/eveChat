@@ -27,6 +27,6 @@ if (!defined("EVE_APP"))
 	define("FEEDBACK_QUALITY","Qualit&eacute de la conversation");
 	define("FEEDBACK_POLITESSE","Politesse du technicien");
 	define("FEEDBACK_REPLY","R&eacuteponse &agrave la question initiale");
-	define("BAN_CHAT","Vous avez été banni");
+	define("BAN_CHAT","Vous avez &eacutet&eacute banni");
 	define("THS_CHAT","Nous &eacutesperons avoir pu r&eacutepondre &agrave vos attentes et vous remercions de votre confiance ");
 ?>

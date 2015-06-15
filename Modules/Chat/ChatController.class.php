@@ -2,6 +2,7 @@
 
 namespace Modules\Chat;
 
+use Library\Managers;
 if (!defined("EVE_APP"))
 	exit();
 
@@ -228,15 +229,17 @@ class ChatController extends \Library\BackController {
 		if (($sessionId) !=null && is_numeric($sessionId)) {
 			$session = $sessionManager->get($sessionId);
 			if ($session = $sessionManager->get("$session_id")) {
-				if	($session->date_fin() == null){
+				if	($session->date_fin() != null){
 					
 				}else{
 					$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
 				}
 			}else{
-				
+				$error[]=ERROR_ON_INSERTION_FOR_USER;	
+				}
+		}else{
+			$error[]=MISS_IDENTIFICATION;
 			}
-		}
 	}
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
@@ -287,22 +290,54 @@ class ChatController extends \Library\BackController {
 	public function executeSendFeedback(\Library\HTTPRequest $request){
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
+			if($session = $sessionManager->get("$session_id")){
 			
+		}else{
+			$error[]=ERROR_ON_INSERTION_FOR_USER;
+			}
+		}else{
+			$error[]=MISS_IDENTIFICATION;
 		}
 	}
+	
+	
 	public function executeThanks(\Library\HTTPRequest $request){
 		
 	}
-	public function executePleinte(\Library\HTTPRequest $request){
+	// Problème lié à la fonction  
+	/*public function executePleinte(\Library\HTTPRequest $request){
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
+			if($session = $sessionManager->get("$session_id")){
+				
+			}else{
+				$error[]=ERROR_ON_INSERTION_FOR_USER;
+				}
 			
+		}else{
+			$error[]=MISS_IDENTIFICATION;
 		}
-	}
+	}*/
 	public function executeSendPleinte(\Library\HTTPRequest $request){
 		$sessionId =$this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
-			
+			if($session = $sessionManager->get("$session_id")){
+				if($request->existPost("problem") || empty("problem")){
+					
+					$this->app()->httpRequest()->dataPost("problem");
+					
+					$this->page()->addVar("valid", 1);
+				}else{
+					$this->page()->addVar("valid", 0);
+					$error[]=ERROR_ON_INSERTION_FOR_USER;
+					$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
+					}
+
+			}else {
+				$error[]=ERROR_ON_INSERTION_FOR_USER; 
+				}
+		}else {
+			$error[]= MISS_IDENTIFICATION;
 		}
 		
 	}
