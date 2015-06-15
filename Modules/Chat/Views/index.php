@@ -23,16 +23,21 @@ function check(base, data) {
 	});
 }
 
-$ (function () {
-	envoiFormulaire();
+$(function () {
+	contenuFormulaire();
 		$('#sendfirstform').click(function(){
 			var mail = $('#mail').val();
 			var service = $('.listederoulante').val();
 			var probleme = $('#probleme').val();
-			$.post('check.php', {'mail' :mail, 'service' :service, 'probleme' :probleme},
-					(){
-		
-}
+			check();
+
+			
+			$.post('chat.php', {'mail' :mail, 'service' :service, 'probleme' :probleme}, function(){
+				contenuFormulaire;
+			});
+		});
+});
+					
 
 </script>
 <div class="divlogo">
