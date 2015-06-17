@@ -3,6 +3,7 @@
 namespace Modules\Chat;
 
 use Library\Managers;
+use Library\Mailer\Mailer;
 if (!defined("EVE_APP"))
 	exit();
 
@@ -10,7 +11,6 @@ class ChatController extends \Library\BackController {
 	public function executeIndex(\Library\HTTPRequest $request) {
 		//fonction pour lister les domaines de compétences des techniciens 
 		$this->page()->addVar("listeReq", $this->managers()->getManagersOf("request")->getListUsedRequest($this->app()->user()->getLanguage()));
-		
 	}
 	
 	/*public function executeIndex(\Library\HTTPRequest $request) {
@@ -217,7 +217,7 @@ class ChatController extends \Library\BackController {
 			$this->page()->addVar("valid", 0);
 			
 			$this->page()->addVar("error", array(INVALID_SESSION_ID));
-			//controle pour savoir ou sera envoyé l'utilisaeur
+			//controle pour savoir ou sera envoyé l'utilisateur
 		}
 		
 		$this->page()->setIsJson();
@@ -225,17 +225,25 @@ class ChatController extends \Library\BackController {
 	
 	public function executeSendMessage(\Library\HTTPRequest $request) {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
-		
 		if (($sessionId) !=null && is_numeric($sessionId)) {
 			$session = $sessionManager->get($sessionId);
 			if ($session = $sessionManager->get("$session_id")) {
 				if	($session->date_fin() != null){
 					
+					if($request->existPost("message") || !empty("message")){
+						
+						$this->app()->httpRequest()->dataPost("message");
+						$this->page()->addVar("valid", 1);
+					}else{
+						$this->page()->addVar("valid", 0);
+						$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
+					}				
 				}else{
 					$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
 				}
 			}else{
-				$error[]=ERROR_ON_INSERTION_FOR_USER;	
+				$this->page()->addVar("valid", 0);
+				$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
 				}
 		}else{
 			$error[]=MISS_IDENTIFICATION;
@@ -244,25 +252,25 @@ class ChatController extends \Library\BackController {
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
 		$sessionId = $this->app()->user()->getAttribute("session_id");
-		
 		if ($sessionId != null && is_numeric($sessionId)){
-			
-			$probleme = $this->app()->user()->getAttribute("problem");
-			
-			if($probleme != null){
-			
-			$this->app()->mailer()->addReciever($this->app()->config()->get("SUPPERVISEUR_EMAIL"));
-			$this->app()->mailer()->setSender($this->app()->user()->getAttribute("mail"));
-			$this->app()->mailer()->setSubject(CHAT_PROBLEM_EMAIL);
-			$this->app()->mailer()->setText("problem");
-			
-			$this->app()->mailer()->sendMail();
-			
+			if($session = $sessionManager->get("$session_id")){
+				
+				
+				$this->app()->mailer()->setSubject("request");
+				$this->app()->config()->get("ADMIN_EMAIL");
+				$this->app()->mailer()->setFile("problem");
+				
+				$this->app()->mailer()->isValid();
+				$this->app()->mailer()->sendMail();
+				
+				
+			}else {
+				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
 		}else {
-			$error[]= MISS_IDENTIFICATION;
+			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 		}
-			
+	
 	}
 	
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Feedback
@@ -280,6 +288,8 @@ class ChatController extends \Library\BackController {
 				$this->app()->httpRequest()->dataPost("quality");
 				$this->app()->httpRequest()->dataPost("politess");
 				$this->app()->httpRequest()->dataPost("reponse");	
+				
+				$date_fin = new \DateTime();
 			}
 		}else {
 			$error[]= MISS_IDENTIFICATION;
@@ -291,45 +301,32 @@ class ChatController extends \Library\BackController {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
-			
+				$this->page()->addVar("valid", 1);
+		
+			}else{
+				$this->page()->addVar("valid", 0);
+				$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
+				}
 		}else{
-			$error[]=ERROR_ON_INSERTION_FOR_USER;
-			}
-		}else{
-			$error[]=MISS_IDENTIFICATION;
+			$this->page()->addVar("valid", 0);
+			$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
 		}
 	}
 	
 	
 	public function executeThanks(\Library\HTTPRequest $request){
-		
+		$this->app()->user()->unsetAttribute("session_id");
 	}
-	// Problème lié à la fonction  
-	/*public function executePleinte(\Library\HTTPRequest $request){
-		$sessionId = $this->app()->user()->getAttribute("session_id");
-		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
-			if($session = $sessionManager->get("$session_id")){
-				
-			}else{
-				$error[]=ERROR_ON_INSERTION_FOR_USER;
-				}
-			
-		}else{
-			$error[]=MISS_IDENTIFICATION;
-		}
-	}*/
 	public function executeSendPleinte(\Library\HTTPRequest $request){
 		$sessionId =$this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
-				if($request->existPost("problem") || empty("problem")){
+				if($request->existPost("problem") || !empty("problem")){
 					
 					$this->app()->httpRequest()->dataPost("problem");
-					
 					$this->page()->addVar("valid", 1);
 				}else{
 					$this->page()->addVar("valid", 0);
-					$error[]=ERROR_ON_INSERTION_FOR_USER;
 					$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
 					}
 
@@ -342,7 +339,7 @@ class ChatController extends \Library\BackController {
 		
 	}
 	public function executeBan(\Library\HTTPRequest $request){
-		
+		$this->app()->user()->unsetAttribute("session_id");
 	}
 }
 ?>
