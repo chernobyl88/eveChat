@@ -1,5 +1,5 @@
 <div>		
 	<?php 
-	echo THS_CHAT;
+	echo THX_CHAT;
 	?>				
-</div>
+</div> 

@@ -4,6 +4,7 @@ namespace Modules\Chat;
 
 use Library\Managers;
 use Library\Mailer\Mailer;
+use Library\Page\Page;
 if (!defined("EVE_APP"))
 	exit();
 
@@ -11,19 +12,9 @@ class ChatController extends \Library\BackController {
 	public function executeIndex(\Library\HTTPRequest $request) {
 		//fonction pour lister les domaines de compétences des techniciens 
 		$this->page()->addVar("listeReq", $this->managers()->getManagersOf("request")->getListUsedRequest($this->app()->user()->getLanguage()));
-	}
+			
+		/*$userManager = $this->managers()->getManagersOf("user");
 	
-	/*public function executeIndex(\Library\HTTPRequest $request) {
-		$userManager = $this->managers()->getManagersOf("user");
-		
-		 
-		
-		$requestManager = $this->managers()->getManagersOf("request");
-		
-		$this->page()->addVar("listeReq", $requestManager->getListUsedRequest($this->app()->user()->getLanguage()));
-		
-		
-		
 		$user = new \Modules\Chat\Entities\user(array(
 			"mail" => "vz@paragp.ch",
 			"ip" => $_SERVER["REMOTE_ADDR"]
@@ -48,10 +39,8 @@ class ChatController extends \Library\BackController {
 
 		$this->page()->addVar("myUser", $users);
 		$this->page()->addVar("nbr", $myNbr);
-		
-		
-		
-	}*/
+		*/
+	}
 	
 	// verification des entrées de l'utlisateur sur la page d'acceuil 
 	public function executeCheck(\Library\HTTPRequest $request) {
@@ -201,18 +190,13 @@ class ChatController extends \Library\BackController {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($session_id)) {
 			$session = $sessionManager->get($sessionId);
-			if ($session != null) {
 				if ($session->date_fin() == null) {
-					
 					
 				} else {
 					$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . '/Chat/feedback.html');
 					//renvois à la page de feedback car l'utilisateur à termier sa session
 				}
-			} else {
-				// renvois à la page d'acceuiél si l'utlisateur n'est pas validé 
-				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
-			}
+			
 		} else {
 			$this->page()->addVar("valid", 0);
 			
@@ -224,17 +208,34 @@ class ChatController extends \Library\BackController {
 	}
 	
 	public function executeSendMessage(\Library\HTTPRequest $request) {
+		if (!($request->existPost("message")))
+			$this->app()->httpResponse()->redirect404();
+		
 		$sessionId = $this->app()->user()->getAttribute("session_id");
-		if (($sessionId) !=null && is_numeric($sessionId)) {
+		
+		if (is_numeric($sessionId)) {
+			
+			$sessionManager = $this->managers()->getManagersOf("session");
 			$session = $sessionManager->get($sessionId);
-			if ($session = $sessionManager->get("$session_id")) {
+			
+			if ($session != null) {
 				if	($session->date_fin() != null){
 					
-					if($request->existPost("message") || !empty("message")){
+					$message = new \Modules\Chat\Entities\message(array(
+							"message" => $request->dataPost("message"),
+							"chat_session" => $session->id(),
+							"date_mess" => new \DateTime(),
+							"chat_user" => ($this->app->user()->getAttribute("isTech")) ? null : $this->app()->user()->id(),
+							"user_id" => ($this->app->user()->getAttribute("isTech")) ? $this->app()->user()->id() : null
+					));
+					
+					if (!$message->isError()) {
 						
-						$this->app()->httpRequest()->dataPost("message");
+						$messageManager = $this->managers()->getManagersOf("message");
+						$messageManager->send($message);
+						
 						$this->page()->addVar("valid", 1);
-					}else{
+					} else {
 						$this->page()->addVar("valid", 0);
 						$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
 					}				
@@ -245,25 +246,16 @@ class ChatController extends \Library\BackController {
 				$this->page()->addVar("valid", 0);
 				$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
 				}
-		}else{
+		} else {
 			$error[]=MISS_IDENTIFICATION;
-			}
+		}
 	}
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
-				
-				
-				$this->app()->mailer()->setSubject("request");
-				$this->app()->config()->get("ADMIN_EMAIL");
-				$this->app()->mailer()->setFile("problem");
-				
-				$this->app()->mailer()->isValid();
-				$this->app()->mailer()->sendMail();
-				
-				
+
 			}else {
 				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
@@ -298,11 +290,22 @@ class ChatController extends \Library\BackController {
 		$this->page()->addVar("listeError", $error);
 	}
 	public function executeSendFeedback(\Library\HTTPRequest $request){
-		$sessionId = $this->app()->user()->getAttribute("session_id");
-		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
-			if($session = $sessionManager->get("$session_id")){
-				$this->page()->addVar("valid", 1);
+		if (!($request->existPost("feedback")))
+			$this->app()->httpResponse()->redirect404();
 		
+			$sessionId = $this->app()->user()->getAttribute("session_id");
+		
+			if (is_numeric($sessionId)) {
+				
+			$sessionManager = $this->managers()->getManagersOf("session");
+			$session = $sessionManager->get($sessionId);
+			
+				$feedback = ("feedback");
+				if (!$feedback->isError()){
+
+				$this->app()->httpRequest()->dataPost("feedback");
+				$this->page()->addVar("valid", 1);
+				
 			}else{
 				$this->page()->addVar("valid", 0);
 				$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
@@ -321,9 +324,18 @@ class ChatController extends \Library\BackController {
 		$sessionId =$this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
-				if($request->existPost("problem") || !empty("problem")){
+				if($request->existPost("pleinte")){
 					
-					$this->app()->httpRequest()->dataPost("problem");
+					$this->app()->httpRequest()->dataPost("pleinte");
+					
+					$this->app()->mailer()->setSubject("PLAINTEUSER");
+					$mail = $this->app()->config()->get("ADMIN_EMAIL");
+					$this->app()->mailer()->addReciever($mail);
+					$this->app()->mailer()->setFile("pleinte");
+					
+					$this->app()->mailer()->isValid();
+					$this->app()->mailer()->sendMail();
+					
 					$this->page()->addVar("valid", 1);
 				}else{
 					$this->page()->addVar("valid", 0);
@@ -331,15 +343,64 @@ class ChatController extends \Library\BackController {
 					}
 
 			}else {
-				$error[]=ERROR_ON_INSERTION_FOR_USER; 
+				$this->page()->addVar("valid", 0);
+				$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER)); 
 				}
 		}else {
-			$error[]= MISS_IDENTIFICATION;
+			$this->page()->addVar("valid", 0);
+			$this->page()->addVar("error", array(ERROR_ON_INSERTION_FOR_USER));
 		}
 		
 	}
 	public function executeBan(\Library\HTTPRequest $request){
 		$this->app()->user()->unsetAttribute("session_id");
 	}
+	
+	//user doit etre redéfini pour correspondre au technicien
+	public function executeIndexTech(\Library\HTTPRequest $request){
+		if ($this->app->user()->isAuthenticated()){
+			
+			
+			
+		}else {
+			//route à redéfinir pour aller sur la page connexion du technicien
+			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+		}
+		
+		
+	}
+	public function executePreference(\Library\HTTPRequest $request){
+		
+	}
+	
+	public function executeChatTech(\Library\HTTPRequest $request){
+		
+	}
+	public function executeListUser(\Library\HTTPRequest $request){
+		
+	}
+	public function executeInfoUser(\Library\HTTPRequest $request){
+		
+	}
+	public function executeblocBan(\Library\HTTPRequest $request){
+		
+		if (!($request->existPost("plainteTech")))
+			$this->app()->httpResponse()->redirect404();{
+			
+			$this->app()->httpRequest()->dataPost("plainteTech");
+			
+			$this->app()->mailer()->setSubject("PLAINTETECH");
+			$mail = $this->app()->config()->get("ADMIN_EMAIL");
+			$this->app()->mailer()->addReciever($mail);
+			$this->app()->mailer()->setFile("plainteTech");
+			
+			$this->app()->mailer()->isValid();
+			$this->app()->mailer()->sendMail();
+
+		}
+		
+		
+	}
+
 }
 ?>

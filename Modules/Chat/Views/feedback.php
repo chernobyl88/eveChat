@@ -30,7 +30,7 @@
 	</div>
 				
 	<div class="form-group">
-		<textarea placeholder="<?php echo ENTER_MSG;?>" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
+		<textarea placeholder="<?php echo ENTER_MSG;?>" class="form-control" name= "feedback" id= "feedback" rows = "20" cols = "50"></textarea>
 	</div>
 	
 	<div class="bouton">
