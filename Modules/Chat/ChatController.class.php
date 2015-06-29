@@ -322,12 +322,6 @@ class ChatController extends \Library\BackController {
 		$this->app()->user()->unsetAttribute("session_id");
 		
 	}
-	public function executePleinte(\Library\HTTPRequest $request){
-		$sessionId = $this->app()->user()->getAttribute("session_id");
-		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
-			
-		}
-	}
 	public function executeSendPleinte(\Library\HTTPRequest $request){
 		$sessionId =$this->app()->user()->getAttribute("session_id");
 		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
@@ -390,8 +384,12 @@ class ChatController extends \Library\BackController {
 		
 	}
 	public function executeListUser(\Library\HTTPRequest $request){
-		
-		
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		if($sessionId = is_numeric ($sessionId)){
+			if ($session = $sessionManager->get ("session_id")){
+				
+			}
+		}
 	}
 	public function executeInfoUser(\Library\HTTPRequest $request){
 		
