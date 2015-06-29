@@ -370,6 +370,11 @@ class ChatController extends \Library\BackController {
 		
 	}
 	public function executePreference(\Library\HTTPRequest $request){
+		if($request->existGet("request") && $request->existPost("nbrUser") && $request->existPost("acceuilMsg")){
+			$this->page()->addVar("valid", 1);
+		}else{
+			$this->page()->addVar("valid", 0);
+		}
 		
 	}
 	
@@ -377,6 +382,7 @@ class ChatController extends \Library\BackController {
 		
 	}
 	public function executeListUser(\Library\HTTPRequest $request){
+		
 		
 	}
 	public function executeInfoUser(\Library\HTTPRequest $request){
