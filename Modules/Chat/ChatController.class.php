@@ -14,6 +14,7 @@ class ChatController extends \Library\BackController {
 		$this->page()->addVar("listeReq", $this->managers()->getManagersOf("request")->getListUsedRequest($this->app()->user()->getLanguage()));
 			
 		/*$userManager = $this->managers()->getManagersOf("user");
+	}
 	
 		$user = new \Modules\Chat\Entities\user(array(
 			"mail" => "vz@paragp.ch",
@@ -319,6 +320,13 @@ class ChatController extends \Library\BackController {
 	
 	public function executeThanks(\Library\HTTPRequest $request){
 		$this->app()->user()->unsetAttribute("session_id");
+		
+	}
+	public function executePleinte(\Library\HTTPRequest $request){
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		if($sessionId !=null && $sessionId = is_numeric ($sessionId)){
+			
+		}
 	}
 	public function executeSendPleinte(\Library\HTTPRequest $request){
 		$sessionId =$this->app()->user()->getAttribute("session_id");

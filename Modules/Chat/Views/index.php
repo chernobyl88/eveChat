@@ -23,6 +23,22 @@ function check(base, data) {
 	});
 }
 
+$(function () {
+	contenuFormulaire();
+		$('#sendfirstform').click(function(){
+			var mail = $('#mail').val();
+			var service = $('.listederoulante').val();
+			var probleme = $('#probleme').val();
+			check();
+
+			
+			$.post('chat.php', {'mail' :mail, 'service' :service, 'probleme' :probleme}, function(){
+				contenuFormulaire;
+			});
+		});
+});
+					
+
 </script>
 <div class="divlogo">
 
@@ -39,7 +55,7 @@ function check(base, data) {
 				</div>
 				
 				<div class="form-group">
-					<input class="form-control" id="mail" type="text" name= "mail" id= "mail" size = "50" maxlength = "15" placeholder="<?php echo MAIL_TXT; ?>"/>
+					<input class="form-control"  type="text" name= "mail" id= "mail" size = "50"  placeholder="<?php echo MAIL_TXT; ?>"/>
 				</div>
 			</div>
 			<div>
@@ -72,7 +88,7 @@ function check(base, data) {
 				</div>
 				
 				<div class="form-group">
-					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
+					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" class="form-control" name= "probleme" id= "probleme" rows = "20" cols = "50"></textarea>
 				</div>
 			</div>
 			<div>
@@ -85,7 +101,7 @@ function check(base, data) {
 				</div>
 			</div>	
 			<div class="bouton">
-				<button class="btn-warning btn-lg btn" type="button"><?php echo SEND;?></button>
+				<button class="btn-warning btn-lg btn" type="button" id="sendfirstform"><?php echo SEND;?></button>
 			</div>
 			
 		</div>
