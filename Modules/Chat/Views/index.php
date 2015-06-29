@@ -1,10 +1,11 @@
 <script type="text/javascript">
 
-function check(base, data) {
+function check(data) {
+	base
 	$.ajax({
 		"dataType": "Json",
 		"type":"post",
-	    "data": data,//$('#details').serialise(),
+	    "data": data,//$('#formulaire').serialise(),
 	    "url": base+"/chat/check.html"
 	}).done(function(data) {
 		if(data.entity && data.entity.valid == 1)
@@ -23,20 +24,43 @@ function check(base, data) {
 	});
 }
 
-$(function () {
-	contenuFormulaire();
-		$('#sendfirstform').click(function(){
-			var mail = $('#mail').val();
-			var service = $('.listederoulante').val();
-			var probleme = $('#probleme').val();
-			check();
+function isEmailValid(email) {
+	var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+    return pattern.test(email);
+};
 
-			
-			$.post('chat.php', {'mail' :mail, 'service' :service, 'probleme' :probleme}, function(){
-				contenuFormulaire;
-			});
-		});
+$(function envoi(){
+	$('#sendfirstform').click(function(){
+		if(!isEmailValid(email)){ 
+			var mail = $('#mail').val()
+		} else {
+			$("#mail").css( "border-color", "red"; "border-style", "solid" );
+			alertify.error('Veuillez saisir une adresse e-mail correcte');
+		}
+		if($("#service").val() != "") { 
+			var service = $('.listederoulante').val();
+		} else {
+			$("#service").css( "border-color", "red"; "border-style", "solid" );
+			alertify.error('Veuillez selectionner le département concerné');
+		}
+		if($("#probleme").length >= 100 ) { 
+			var probleme = $('#probleme').val();
+		} else {
+			$("#probleme").css( "border-color", "red"; "border-style", "solid" );
+			alertify.error("Veuillez décrire votre problème" <br>"100 Au minimum 100 caractères sont requis" );
+		}
+		if ((!isEmailValid(email)) && ($("#service").val()) && ($("#probleme").length >= 100 ) && ($('input[name=agree]').is(':checked'))){
+			check({"mail": mail, "service": service, "probleme": probleme})
+		} else {
+		    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
+		}
+		
+	});
 });
+
+$( document ).ready(function() {
+	envoi();
+}
 					
 
 </script>
@@ -55,7 +79,7 @@ $(function () {
 				</div>
 				
 				<div class="form-group">
-					<input class="form-control"  type="text" name= "mail" id= "mail" size = "50"  placeholder="<?php echo MAIL_TXT; ?>"/>
+					<input class="form-control" type="text" required="required" name= "mail" id= "mail" size = "50"  placeholder="<?php echo MAIL_TXT; ?>" />
 				</div>
 			</div>
 			<div>
@@ -88,7 +112,7 @@ $(function () {
 				</div>
 				
 				<div class="form-group">
-					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" class="form-control" name= "probleme" id= "probleme" rows = "20" cols = "50"></textarea>
+					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" required="required" class="form-control" name= "probleme" id= "probleme" rows = "20" cols = "50"></textarea>
 				</div>
 			</div>
 			<div>
@@ -97,7 +121,7 @@ $(function () {
 				</div>
 				
 				<div>
-					<input type = "checkbox" name = "agree" id = "agree" /> <label for="agree"><?php echo AGREE; ?></label>
+					<input type = "checkbox" required="required" name ="agree" id ="agree" /> <label for="agree"><?php echo AGREE; ?></label>
 				</div>
 			</div>	
 			<div class="bouton">

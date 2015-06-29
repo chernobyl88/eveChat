@@ -31,4 +31,5 @@ if (!defined("EVE_APP"))
 	define("THX_CHAT","Nous &eacutesperons avoir pu r&eacutepondre &agrave vos attentes et vous remercions de votre confiance ");
 	define("PLAINTEUSER","Plainte de l'utilisateur");
 	define("PLAINTETECH","Plainte du technicien");
+	define("CLOSE","Fermer la fen&ecirc;tre");
 ?>
