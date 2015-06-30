@@ -150,8 +150,8 @@ class HTTPRequest extends ApplicationComponent{
 	 * @return string
 	 */
 	public function extendUri(){
-		return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root)+1);
-		//return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root));
+		//return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root)+1);
+		return substr($_SERVER['DOCUMENT_ROOT'] .  $_SERVER['REQUEST_URI'], strlen($this->root));
 	}
 	
 	

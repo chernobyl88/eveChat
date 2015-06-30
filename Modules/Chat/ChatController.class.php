@@ -39,8 +39,8 @@ class ChatController extends \Library\BackController {
 		$users = $userManager->getList(array("mail = 'vz@paragp.ch'"));
 
 		$this->page()->addVar("myUser", $users);
-		$this->page()->addVar("nbr", $myNbr);
-		*/
+		$this->page()->addVar("nbr", $myNbr);*/
+		
 	}
 	
 	// verification des entrées de l'utlisateur sur la page d'acceuil 
@@ -163,7 +163,7 @@ class ChatController extends \Library\BackController {
 	}
 	
 	public function executeChat(\Library\HTTPRequest $request) {
-		$sessionId = $this->app()->user()->getAttribute("session_id");
+		/*$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($session_id)) {
 			$session = $sessionManager->get($sessionId);
 			if ($session != null) {
@@ -184,7 +184,7 @@ class ChatController extends \Library\BackController {
 		} else {
 			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			//renvois à la page d'acceuil si l'utilisateur n'est pas validé par les controles ci-dessus
-		}
+		}*/
 	}
 	
 	public function executeLoadMessage(\Library\HTTPRequest $request) {
@@ -253,7 +253,7 @@ class ChatController extends \Library\BackController {
 	}
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
-		$sessionId = $this->app()->user()->getAttribute("session_id");
+		/*$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
 
@@ -262,7 +262,7 @@ class ChatController extends \Library\BackController {
 			}
 		}else {
 			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
-		}
+		}*/
 	
 	}
 	
@@ -329,7 +329,7 @@ class ChatController extends \Library\BackController {
 				if($request->existPost("pleinte")){
 					
 					$this->app()->httpRequest()->dataPost("pleinte");
-					
+				
 					$this->app()->mailer()->setSubject("PLAINTEUSER");
 					$mail = $this->app()->config()->get("ADMIN_EMAIL");
 					$this->app()->mailer()->addReciever($mail);
@@ -362,14 +362,10 @@ class ChatController extends \Library\BackController {
 	public function executeIndexTech(\Library\HTTPRequest $request){
 		if ($this->app->user()->isAuthenticated()){
 			
-			
-			
 		}else {
 			//route à redéfinir pour aller sur la page connexion du technicien
 			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
-		}
-		
-		
+		}	
 	}
 	public function executePreference(\Library\HTTPRequest $request){
 		if($request->existGet("request") && $request->existPost("nbrUser") && $request->existPost("acceuilMsg")){
@@ -381,18 +377,46 @@ class ChatController extends \Library\BackController {
 	}
 	
 	public function executeChatTech(\Library\HTTPRequest $request){
-		
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		if ($essionId = is_numeric ($sessionId)){
+			if ($session = $sessionManager->get ("session_id")){
+				
+			}else{
+				$this->app()->httpResponse()->redirect404();
+			}
+		}else{
+			$this->app()->httpResponse()->redirect404();
+		}
 	}
 	public function executeListUser(\Library\HTTPRequest $request){
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if($sessionId = is_numeric ($sessionId)){
 			if ($session = $sessionManager->get ("session_id")){
+			
+				$userManager = $this->managers()->getManagersOf("user");
 				
+				$listUser = $userManager->getList("chat_user_mail ="  . sessionId);
+				
+				$this->page()->addVar("listUser", $listUser);
+				
+			}else{
+				$this->app()->httpResponse()->redirect404();
 			}
+		}else {
+			$this->app()->httpResponse()->redirect404();
 		}
 	}
 	public function executeInfoUser(\Library\HTTPRequest $request){
-		
+		$sessionId = $this->app()->user()->getAttribute("session_id");
+		if ($sessionId = is_numeric ($sessionId)){
+			if ($session = $sessionManager->get ("session_id")){
+			
+			}else {
+				$this->app()->httpResponse()->redirect404();		
+			}
+		}else{
+			$this->app()->httpResponse()->redirect404();
+		}
 	}
 	public function executeblocBan(\Library\HTTPRequest $request){
 		
@@ -408,8 +432,7 @@ class ChatController extends \Library\BackController {
 			
 			$this->app()->mailer()->isValid();
 			$this->app()->mailer()->sendMail();
-
-		}
+		} 
 		
 		
 	}
