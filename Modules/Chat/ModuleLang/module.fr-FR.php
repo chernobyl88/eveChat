@@ -32,4 +32,5 @@ if (!defined("EVE_APP"))
 	define("PLAINTEUSER","Plainte de l'utilisateur");
 	define("PLAINTETECH","Plainte du technicien");
 	define("CLOSE","Fermer la fen&ecirc;tre");
+	define("BACK","Retour");
 ?>

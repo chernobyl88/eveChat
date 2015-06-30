@@ -29,34 +29,32 @@ function isEmailValid(email) {
     return pattern.test(email);
 };
 
-$(function envoi(){
-	$('#sendfirstform').click(function(){
-		if(!isEmailValid(email)){ 
-			var mail = $('#mail').val()
-		} else {
-			$("#mail").css( "border-color", "red"; "border-style", "solid" );
-			alertify.error('Veuillez saisir une adresse e-mail correcte');
-		}
-		if($("#service").val() != "") { 
-			var service = $('.listederoulante').val();
-		} else {
-			$("#service").css( "border-color", "red"; "border-style", "solid" );
-			alertify.error('Veuillez selectionner le département concerné');
-		}
-		if($("#probleme").length >= 100 ) { 
-			var probleme = $('#probleme').val();
-		} else {
-			$("#probleme").css( "border-color", "red"; "border-style", "solid" );
-			alertify.error("Veuillez décrire votre problème" <br>"100 Au minimum 100 caractères sont requis" );
-		}
-		if ((!isEmailValid(email)) && ($("#service").val()) && ($("#probleme").length >= 100 ) && ($('input[name=agree]').is(':checked'))){
-			check({"mail": mail, "service": service, "probleme": probleme})
-		} else {
-		    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
-		}
-		
-	});
+$('#sendfirstform').click(function(){
+	if(!isEmailValid(email)) { 
+		var mail = $('#mail').val()
+	} else {
+		$("#mail").css( "border-color", "red"; "border-style", "solid" );
+		alertify.error('Veuillez saisir une adresse e-mail correcte');
+	}
+	if($("#service").val() != "") { 
+		var service = $('.listederoulante').val();
+	} else {
+		$("#service").css( "border-color", "red"; "border-style", "solid" );
+		alertify.error('Veuillez selectionner le département concerné');
+	}
+	if($("#probleme").length >= 100 ) { 
+		var probleme = $('#probleme').val();
+	} else {
+		$("#probleme").css( "border-color", "red"; "border-style", "solid" );
+		alertify.error("Veuillez décrire votre problème" <br>"100 Au minimum 100 caractères sont requis" );
+	}
+	if ((!isEmailValid(email)) && ($("#service").val()) && ($("#probleme").length >= 100 ) && ($('input[name=agree]').is(':checked'))) {
+		check({"mail": mail, "service": service, "probleme": probleme})
+	} else {
+	    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
+	}	
 });
+
 
 $( document ).ready(function() {
 	envoi();
@@ -125,7 +123,7 @@ $( document ).ready(function() {
 				</div>
 			</div>	
 			<div class="bouton">
-				<button class="btn-warning btn-lg btn" type="button" onclick="envoi()" id="sendfirstform"><?php echo SEND;?></button>
+				<button class="btn-warning btn-lg btn" type="button" id="sendfirstform"><?php echo SEND;?></button>
 			</div>
 			
 		</div>

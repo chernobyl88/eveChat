@@ -1,5 +1,5 @@
 <div class="divcadre">
-	<div>		
+	<div class="textcenter">		
 		<?php 
 		echo THX_CHAT;
 		?>				
