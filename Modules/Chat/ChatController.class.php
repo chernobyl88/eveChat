@@ -163,6 +163,8 @@ class ChatController extends \Library\BackController {
 	}
 	
 	public function executeChat(\Library\HTTPRequest $request) {
+		
+		//commentaire a supprimer
 		/*$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($session_id)) {
 			$session = $sessionManager->get($sessionId);
@@ -253,6 +255,7 @@ class ChatController extends \Library\BackController {
 	}
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
+		//supprimer les commentaires
 		/*$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
@@ -270,17 +273,17 @@ class ChatController extends \Library\BackController {
 	public function executeFeedback(\Library\HTTPRequest $request) {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		$error = array();
-		
-		if($sessionId !=null && $sessionId = is_numeric($sessionId)){
+		//commentaire a supprimer !
+		if($sessionId /*!*/==null /*&& $sessionId = is_numeric($sessionId)*/){
 			//permet de quatifier et nomminer le feedback selon les besoin
-			$this->page()->addVar("typeQuestion", array("quality", "politess", "reponse"));
+			$this->page()->addVar("typeQuestion", array("quality", "politess", "reply"));
 			$this->page()->addVar("maxFeedback", (is_numeric($this->app()->config()->get("MAX_FEEDBACK"))) ? $this->app()->config()->get("MAX_FEEDBACK") : 10);
 			//vérifie si la valeur existe
-			if($request->existPost("quality") &&  $request->existPost("politess") && $request->existPost("reponse")){
+			if($request->existPost("quality") &&  $request->existPost("politess") && $request->existPost("reply")){
 				//enregistire la valeur dans la base de données
 				$this->app()->httpRequest()->dataPost("quality");
 				$this->app()->httpRequest()->dataPost("politess");
-				$this->app()->httpRequest()->dataPost("reponse");	
+				$this->app()->httpRequest()->dataPost("reply");	
 				
 				$date_fin = new \DateTime();
 			}

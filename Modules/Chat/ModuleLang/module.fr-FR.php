@@ -25,7 +25,7 @@ if (!defined("EVE_APP"))
 	define("ERROR_ON_INSERTION_FOR_USER","un souci technique");
 	define("INVALID_SESSION_ID","un souci technique");
 	define("FEEDBACK_QUALITY","Qualit&eacute de la conversation");
-	define("FEEDBACK_POLITESSE","Politesse du technicien");
+	define("FEEDBACK_POLITESS","Politesse du technicien");
 	define("FEEDBACK_REPLY","R&eacuteponse &agrave la question initiale");
 	define("BAN_CHAT","Vous avez &eacutet&eacute banni");
 	define("THX_CHAT","Nous &eacutesperons avoir pu r&eacutepondre &agrave vos attentes et vous remercions de votre confiance ");
