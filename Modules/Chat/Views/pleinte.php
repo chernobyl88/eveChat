@@ -1,14 +1,16 @@
 <script type="text/javascript">
-
-$('#envoyer').click(function(){
-	if($("#pleinte").length >= 100 ) {
-		var pleinte = $('#pleinte').val();
-	} else {
-		$("#pleinte").css("border-color","red").css("border-style","solid");
-		//alertify.error("Veuillez décrire votre plainte"<br>"100 Au minimum 100 caractères sont requis" );
-		alert("122");
-	}
+$(document).ready(function() {
+	$("#envoyer").click(function() {
+		if($("#pleinte").length >= 100 ) {
+			var pleinte = $('#pleinte').val();
+		} else {
+			$("#pleinte").css("border-color","red").css("border-style","solid");
+			alertify.error("Veuillez décrire votre plainte <br> 100 Au minimum 100 caractères sont requis" );
+		}
+	});
+	
 });
+
 </script>
 
 <div class="divcadre">
