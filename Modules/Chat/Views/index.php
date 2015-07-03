@@ -1,7 +1,8 @@
 <script type="text/javascript">
 
 	
-	function check(data, base) {	
+	function check(data, base) {
+		
 		$.ajax({
 			"dataType": "Json",
 			"type":"post",
@@ -30,17 +31,16 @@ $( document ).ready(function() {
 	$("#sendfirstform").click(function(){
 		var email = $('#mail').val()
 		var valid = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/.test(email)
-		if (valid) {
-			var email = $('#mail').val()
-		} else {
+		if (!valid) {
 			$("#mail").css("border-color","red").css("border-style","solid");
 			alertify.error('Veuillez saisir une adresse e-mail correcte');
 			$("#mail").click(function() {
 				$("#mail").css("border-color","#66afe9").css("border-style","solid"); 
 				});
 		}
+		
 		if($(".listederoulante").val() > 0) { 
-			var sujet = $('.listederoulante').val();
+			var request = $('.listederoulante').val();
 		} else {
 			$(".listederoulante").css("border-color","red").css("border-style","solid");
 			alertify.error('Veuillez selectionner le département concerné');
@@ -48,21 +48,26 @@ $( document ).ready(function() {
 				$(".listederoulante").css("border-color","#66afe9").css("border-style","solid"); 
 				});
 		}
-		if($("#probleme").val().length > 100 ) { 
-			var probleme = $('#probleme').val();
+		
+		if($("#problem").val().length > 100 ) { 
+			var problem = $('#problem').val();
 		} else {
-			$("#probleme").css("border-color","red").css("border-style","solid");
+			$("#problem").css("border-color","red").css("border-style","solid");
 			alertify.error("Veuillez décrire votre problème :<br> Au minimum 100 caractères sont requis." );
-			$("#probleme").click(function() {
-				$("#probleme").css("border-color","#66afe9").css("border-style","solid"); 
+			$("#problem").click(function() {
+				$("#problem").css("border-color","#66afe9").css("border-style","solid"); 
 				});
 		}
+		
 		if ($('input[name=agree]').is(':checked')) {
 		} else {
 		    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
-		}	
-		if (($('#agree').is(':checked')) && (valid) && ($(".listederoulante").val() > 0) && ($("#probleme").val().length > 100 )) {
-			check({"mail": mail, "sujet": sujet, "probleme": probleme},"<?php echo $rootLang;?>")
+		}
+		
+		if (($('#agree').is(':checked')) && (valid) && ($(".listederoulante").val() > 0) && ($("#problem").val().length > 100 )) {
+		
+			check({"mail": email, "request": request, "problem": problem},"<?php echo $rootLang;?>")
+			
 		} else {
 		    alertify.alert("Verifiez que tout les champs sont correctement remplis");
 		}	
@@ -121,7 +126,7 @@ $( document ).ready(function() {
 				</div>
 				
 				<div class="form-group">
-					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" required="required" class="form-control" name= "probleme" id= "probleme" rows = "20" cols = "50"></textarea>
+					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" required="required" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
 				</div>
 			</div>
 			<div>
