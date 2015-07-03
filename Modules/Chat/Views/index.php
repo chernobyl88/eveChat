@@ -1,13 +1,12 @@
 <script type="text/javascript">
 
 	
-	function check(data) {
-		base
+	function check(data, base) {	
 		$.ajax({
 			"dataType": "Json",
 			"type":"post",
 		    "data": data,//$('#formulaire').serialise(),
-		    "url": base+"/chat/check.html"
+		    "url": base+"/Chat/check.html"
 		}).done(function(data) {
 			if(data.entity && data.entity.valid == 1)
 				$(window).attr("location",base+"/chat/chat.html");
@@ -25,39 +24,48 @@
 		});
 	}
 
-
-//function isValidEmailAddress(emailAddress) {
- //   var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
-  //  return pattern.test(emailAddress);
- // };
 	
 $( document ).ready(function() {	
 	
 	$("#sendfirstform").click(function(){
 		var email = $('#mail').val()
-		if (/^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/.test(email)) {
+		var valid = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/.test(email)
+		if (valid) {
 			var email = $('#mail').val()
 		} else {
 			$("#mail").css("border-color","red").css("border-style","solid");
 			alertify.error('Veuillez saisir une adresse e-mail correcte');
+			$("#mail").click(function() {
+				$("#mail").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
-		if($("#service").val() != "") { //attention il faut ralouter un autre champ
-			var service = $('.listederoulante').val();
+		if($(".listederoulante").val() > 0) { 
+			var sujet = $('.listederoulante').val();
 		} else {
-			$("#service").css("border-color","red").css("border-style","solid");
+			$(".listederoulante").css("border-color","red").css("border-style","solid");
 			alertify.error('Veuillez selectionner le département concerné');
+			$(".listederoulante").click(function() {
+				$(".listederoulante").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
-		if($("#probleme").length > 100 ) { 
+		if($("#probleme").val().length > 100 ) { 
 			var probleme = $('#probleme').val();
 		} else {
 			$("#probleme").css("border-color","red").css("border-style","solid");
 			alertify.error("Veuillez décrire votre problème :<br> Au minimum 100 caractères sont requis." );
+			$("#probleme").click(function() {
+				$("#probleme").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
-		//if ((typeof valid !== 'undefined') && ($("#service").val()) && ($("#probleme").length >= 100 ) && ($('input[name=agree]').is(':checked'))) {
-		//	check({"mail": mail, "service": service, "probleme": probleme})
-		//} else {
-		//    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
-		//}	
+		if ($('input[name=agree]').is(':checked')) {
+		} else {
+		    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
+		}	
+		if (($('#agree').is(':checked')) && (valid) && ($(".listederoulante").val() > 0) && ($("#probleme").val().length > 100 )) {
+			check({"mail": mail, "sujet": sujet, "probleme": probleme},"<?php echo $rootLang;?>")
+		} else {
+		    alertify.alert("Verifiez que tout les champs sont correctement remplis");
+		}	
 	});
 });
 
@@ -90,6 +98,7 @@ $( document ).ready(function() {
 				</div>
 				<div class="divlistederoulante">
 					<select class="listederoulante" name="request">
+					<option disabled="disabled" selected="selected" value="0">Veuilliez choisir le sujet lié à votre problème</option>
 					<?php
 					foreach($listeReq AS $elem) {
 						?>
