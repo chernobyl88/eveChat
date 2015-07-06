@@ -6,7 +6,7 @@
 		$.ajax({
 			"dataType": "Json",
 			"type":"post",
-		    "data": data,//$('#formulaire').serialise(),
+		    "data": data,     //$('#formulaire').serialise(),
 		    "url": base+"/Chat/check.html"
 		}).done(function(data) {
 			if(data.entity && data.entity.valid == 1)

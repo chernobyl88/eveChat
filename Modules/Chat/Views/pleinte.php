@@ -1,11 +1,28 @@
 <script type="text/javascript">
-$(document).ready(function() {
-	$("#envoyer").click(function() {
-		if($("#pleinte").length >= 100 ) {
+function post(data,base) {
+	$.ajax({
+		"dataType": "Json",
+		"type":"post",
+	    "data": data,     //$('#formulaire').serialise(),
+	    "url": base+"/Chat/sendPleinte.php"
+	})
+	.done(function( msg ) {
+		alert( "Data Saved: " + msg );
+	});
+};
+
+$( document ).ready(function() {
+	
+	$("#envoyer").click(function(){
+		if($("#pleinte").val().length >= 100 ) {
 			var pleinte = $('#pleinte').val();
+			post ({ "complaint": pleinte})
 		} else {
 			$("#pleinte").css("border-color","red").css("border-style","solid");
 			alertify.error("Veuillez décrire votre plainte <br> 100 Au minimum 100 caractères sont requis" );
+			$("#pleinte").click(function() {
+				$("#pleinte").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
 	});
 	
