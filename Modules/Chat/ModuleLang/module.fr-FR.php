@@ -10,7 +10,7 @@ if (!defined("EVE_APP"))
 	define("ENTER_COMPLAINT", "Veuilliez inscrire ici votre r&eacuteclamation");
 	define("ENTER_MESSAGE", "Si vous le souhaitez, vous pouvez laisser un message au superviseur ici.");
 	define("AGREE", "En cochant cette case, je m'engage &agrave accepter les conditions mentionn&eacutees ci-dessus.");
-	define("PROBLEM_TXT","Entrez ici votre probl&egraveme ou votre demande");
+	define("PROBLEM_TXT","Entrez ici votre problème ou votre demande");
 	define("VALID_TXT", "j'accepte les conditions test");
 	define("SEND","Envoyer");
 	define("INVALID_MAIL", "Veuilliez entrer un mail valide");

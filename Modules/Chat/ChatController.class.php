@@ -95,7 +95,7 @@ class ChatController extends \Library\BackController {
 					
 			));
 			$userManager->send($user);
-			//Génération de la session et  ses vérifications
+			//Génération de la session et ses vérifications
 			if ($user->id() > 0) {
 				 
 				$sessionManager = $this->managers()->getManagersOf("session");
@@ -163,9 +163,7 @@ class ChatController extends \Library\BackController {
 	}
 	
 	public function executeChat(\Library\HTTPRequest $request) {
-		
-		//commentaire a supprimer
-		/*$sessionId = $this->app()->user()->getAttribute("session_id");
+		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($session_id)) {
 			$session = $sessionManager->get($sessionId);
 			if ($session != null) {
@@ -181,12 +179,12 @@ class ChatController extends \Library\BackController {
 					//renvois à la page de feedback car l'utilisateur à termier sa session
 				}
 			} else {
-				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+				//$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
 		} else {
-			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+			//$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			//renvois à la page d'acceuil si l'utilisateur n'est pas validé par les controles ci-dessus
-		}*/
+		}
 	}
 	
 	public function executeLoadMessage(\Library\HTTPRequest $request) {
@@ -223,7 +221,7 @@ class ChatController extends \Library\BackController {
 			
 			if ($session != null) {
 				if	($session->date_fin() != null){
-					
+				
 					$message = new \Modules\Chat\Entities\message(array(
 							"message" => $request->dataPost("message"),
 							"chat_session" => $session->id(),
@@ -255,17 +253,15 @@ class ChatController extends \Library\BackController {
 	}
 	//fonction pour vérifie si l'utilisateur peut accéder à la page Pleinte
 	public function executePleinte(\Library\HTTPRequest $request)	{
-		//supprimer les commentaires
-		/*$sessionId = $this->app()->user()->getAttribute("session_id");
+		$sessionId = $this->app()->user()->getAttribute("session_id");
 		if ($sessionId != null && is_numeric($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
-
 			}else {
 				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
 		}else {
 			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
-		}*/
+		}
 	
 	}
 	
@@ -273,7 +269,7 @@ class ChatController extends \Library\BackController {
 	public function executeFeedback(\Library\HTTPRequest $request) {
 		$sessionId = $this->app()->user()->getAttribute("session_id");
 		$error = array();
-		//commentaire a supprimer !
+		//commentaire à désactiver
 		if($sessionId /*!*/==null /*&& $sessionId = is_numeric($sessionId)*/){
 			//permet de quatifier et nomminer le feedback selon les besoin
 			$this->page()->addVar("typeQuestion", array("quality", "politess", "reply"));
@@ -294,6 +290,7 @@ class ChatController extends \Library\BackController {
 		$this->page()->addVar("listeError", $error);
 	}
 	public function executeSendFeedback(\Library\HTTPRequest $request){
+		//vérifie que le feedback existe et a bien transmit
 		if (!($request->existPost("feedback")))
 			$this->app()->httpResponse()->redirect404();
 		
@@ -332,7 +329,8 @@ class ChatController extends \Library\BackController {
 				if($request->existPost("pleinte")){
 					
 					$this->app()->httpRequest()->dataPost("pleinte");
-				
+					
+					//envois le mail de plainte de l'utilisateur à l'administrateur
 					$this->app()->mailer()->setSubject("PLAINTEUSER");
 					$mail = $this->app()->config()->get("ADMIN_EMAIL");
 					$this->app()->mailer()->addReciever($mail);
@@ -358,7 +356,16 @@ class ChatController extends \Library\BackController {
 		
 	}
 	public function executeBan(\Library\HTTPRequest $request){
-		$this->app()->user()->unsetAttribute("session_id");
+		/*$this->app()->user()->unsetAttribute("session_id");*/
+		
+		$userManager = $this->managers()->getManagersOf("user");
+		
+		$userblocban = new \Modules\Chat\Entities\user(array(
+				"ip" => $_SERVER["REMOTE_ADDR"],
+				"date_ban" => new \ dateTime()
+		) );
+		
+		
 	}
 	
 	//user doit etre redéfini pour correspondre au technicien
@@ -386,6 +393,7 @@ class ChatController extends \Library\BackController {
 				
 			}else{
 				$this->app()->httpResponse()->redirect404();
+
 			}
 		}else{
 			$this->app()->httpResponse()->redirect404();
@@ -398,9 +406,9 @@ class ChatController extends \Library\BackController {
 			
 				$userManager = $this->managers()->getManagersOf("user");
 				
-				$listUser = $userManager->getList("chat_user_mail ="  . sessionId);
+				$listUser = $userManager->getList("chat_user_mail =" . sessionId);
 				
-				$this->page()->addVar("listUser", $listUser);
+				$this->page()->addVar("listUser", array($listUser));
 				
 			}else{
 				$this->app()->httpResponse()->redirect404();
@@ -419,10 +427,11 @@ class ChatController extends \Library\BackController {
 			}
 		}else{
 			$this->app()->httpResponse()->redirect404();
+			 
 		}
 	}
 	public function executeblocBan(\Library\HTTPRequest $request){
-		
+		//premet au technicien d'envoyer sa plainte
 		if (!($request->existPost("plainteTech")))
 			$this->app()->httpResponse()->redirect404();{
 			
