@@ -1,10 +1,20 @@
+<script>
+$( document ).ready(function() {
+	$("#input-id").rating();
+});
+</script>
 <div class="divcadre">
 
 	<?php
 	if (count($listeError) == 0) {
 	foreach ($typeQuestion AS $type) {
 		?>
+		
 		<div>
+			<input id="input-id" type="number" class="rating" min=1 max=10 step=1 data-size="md" data-rtl="true">
+		</div>
+		
+		<!--   <div>
 			<div class="textcenter">
 				<?php echo (defined(strtoupper("FEEDBACK_" . $type))) ? constant(strtoupper("FEEDBACK_" . $type)) : $type;?>
 			</div>
@@ -19,7 +29,8 @@
 					?>
 				</select>
 			</div>
-		</div>
+		</div>-->
+		
 		<?php
 	}
 	?>
