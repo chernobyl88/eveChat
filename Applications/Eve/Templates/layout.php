@@ -4,8 +4,9 @@
 		<meta charset="UTF-8">
 		<title>EVE</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-		<link type="text/javascript" href="<?php echo $root;?>/Web/js/alertify.core.css">
-		<link type="text/javascript" href="<?php echo $root;?>/Web/js/alertify.default.css" id="toggleCSS" />
+		<script type="text/javascript" src="<?php echo $root;?>/Web/js/alertify.min.js"></script>
+		<link rel="stylesheet" href="<?php echo $root;?>/Web/css/alertify.core.css">
+		<link rel="stylesheet" href="<?php echo $root;?>/Web/css/alertify.default.css" id="toggleCSS" />
 		<link rel=stylesheet type="text/css" href="<?php echo $root;?>/Web/css/bootstrap.css">
 		<link rel=stylesheet type="text/css" href="<?php echo $root;?>/Web/css/ajouts.css">
 	</head>

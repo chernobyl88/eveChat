@@ -1,66 +1,79 @@
 <script type="text/javascript">
 
-function check(data) {
-	base
-	$.ajax({
-		"dataType": "Json",
-		"type":"post",
-	    "data": data,//$('#formulaire').serialise(),
-	    "url": base+"/chat/check.html"
-	}).done(function(data) {
-		if(data.entity && data.entity.valid == 1)
-			$(window).attr("location",base+"/chat/chat.html");
-		else
-			if(data.entity && data.entity.valid == 0)
-				if (data.entity.error && data.entity.error.entity.length > 0) {
-					$.each(data.entity.error.entity, function(key, data) {
-						alert(data);
-					});
-				} else 
-					callBack();//$(window).attr("location", base+"/chat/check.html");
+	
+	function check(data, base) {
 		
-	}).fail(function(xhr,error){
-		alert(error);
-	});
-}
+		$.ajax({
+			"dataType": "Json",
+			"type":"post",
+		    "data": data,//$('#formulaire').serialise(),
+		    "url": base+"/Chat/check.html"
+		}).done(function(data) {
+			if(data.entity && data.entity.valid == 1)
+				$(window).attr("location",base+"/chat/chat.html");
+			else
+				if(data.entity && data.entity.valid == 0)
+					if (data.entity.error && data.entity.error.entity.length > 0) {
+						$.each(data.entity.error.entity, function(key, data) {
+							alert(data);
+						});
+					} else 
+						callBack();//$(window).attr("location", base+"/chat/check.html");
+			
+		}).fail(function(xhr,error){
+			alert(error);
+		});
+	}
 
-function isEmailValid(email) {
-	var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
-    return pattern.test(email);
-};
-
-$(function envoi(){
-	$('#sendfirstform').click(function(){
-		if(!isEmailValid(email)){ 
-			var mail = $('#mail').val()
-		} else {
-			$("#mail").css( "border-color", "red"; "border-style", "solid" );
+	
+$( document ).ready(function() {	
+	
+	$("#sendfirstform").click(function(){
+		var email = $('#mail').val()
+		var valid = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/.test(email)
+		if (!valid) {
+			$("#mail").css("border-color","red").css("border-style","solid");
 			alertify.error('Veuillez saisir une adresse e-mail correcte');
+			$("#mail").click(function() {
+				$("#mail").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
-		if($("#service").val() != "") { 
-			var service = $('.listederoulante').val();
+		
+		if($(".listederoulante").val() > 0) { 
+			var request = $('.listederoulante').val();
 		} else {
-			$("#service").css( "border-color", "red"; "border-style", "solid" );
+			$(".listederoulante").css("border-color","red").css("border-style","solid");
 			alertify.error('Veuillez selectionner le département concerné');
+			$(".listederoulante").click(function() {
+				$(".listederoulante").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
-		if($("#probleme").length >= 100 ) { 
-			var probleme = $('#probleme').val();
+		
+		if($("#problem").val().length > 100 ) { 
+			var problem = $('#problem').val();
 		} else {
-			$("#probleme").css( "border-color", "red"; "border-style", "solid" );
-			alertify.error("Veuillez décrire votre problème" <br>"100 Au minimum 100 caractères sont requis" );
+			$("#problem").css("border-color","red").css("border-style","solid");
+			alertify.error("Veuillez décrire votre problème :<br> Au minimum 100 caractères sont requis." );
+			$("#problem").click(function() {
+				$("#problem").css("border-color","#66afe9").css("border-style","solid"); 
+				});
 		}
-		if ((!isEmailValid(email)) && ($("#service").val()) && ($("#probleme").length >= 100 ) && ($('input[name=agree]').is(':checked'))){
-			check({"mail": mail, "service": service, "probleme": probleme})
+		
+		if ($('input[name=agree]').is(':checked')) {
 		} else {
 		    alertify.alert("Veuillez cocher la case qui indique que vous acceptez les conditions d'utilisation");
 		}
 		
+		if (($('#agree').is(':checked')) && (valid) && ($(".listederoulante").val() > 0) && ($("#problem").val().length > 100 )) {
+		
+			check({"mail": email, "request": request, "problem": problem},"<?php echo $rootLang;?>")
+			
+		} else {
+		    alertify.alert("Verifiez que tout les champs sont correctement remplis");
+		}	
 	});
 });
 
-$( document ).ready(function() {
-	envoi();
-}
 					
 
 </script>
@@ -90,6 +103,7 @@ $( document ).ready(function() {
 				</div>
 				<div class="divlistederoulante">
 					<select class="listederoulante" name="request">
+					<option disabled="disabled" selected="selected" value="0">Veuilliez choisir le sujet lié à votre problème</option>
 					<?php
 					foreach($listeReq AS $elem) {
 						?>
@@ -112,7 +126,7 @@ $( document ).ready(function() {
 				</div>
 				
 				<div class="form-group">
-					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" required="required" class="form-control" name= "probleme" id= "probleme" rows = "20" cols = "50"></textarea>
+					<textarea placeholder="<?php echo PROBLEM_TXT; ?>" required="required" class="form-control" name= "problem" id= "problem" rows = "20" cols = "50"></textarea>
 				</div>
 			</div>
 			<div>
@@ -125,7 +139,7 @@ $( document ).ready(function() {
 				</div>
 			</div>	
 			<div class="bouton">
-				<button class="btn-warning btn-lg btn" type="button" onclick="envoi()" id="sendfirstform"><?php echo SEND;?></button>
+				<button class="btn-warning btn-lg btn" type="button" id="sendfirstform"><?php echo SEND;?></button>
 			</div>
 			
 		</div>
