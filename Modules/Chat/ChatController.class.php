@@ -257,10 +257,10 @@ class ChatController extends \Library\BackController {
 		if ($sessionId != null && is_numeric($sessionId)){
 			if($session = $sessionManager->get("$session_id")){
 			}else {
-				$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+				//$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 			}
 		}else {
-			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+			//$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 		}
 	
 	}

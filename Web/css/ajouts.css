@@ -31,9 +31,33 @@ body {
 	margin: auto;
 }
 .bouton{
-float: right;
- margin-top: 10px;
- margin-left: 50px;
+	float: right;
+ 	margin-top: 10px;
+ 	margin-left: 50px;
  
 }
+.eval{
+ 	margin-bottom: 10px;
+	text-align: center;
+}
+.divabouton{
+ 	
+}
+.left{
+ 	float: left !important;
+}
 
+
+
+#display{
+	float: left;
+	width: 70%;
+    height: 400px;
+    background-color: white;
+    overflow-x: hidden;
+    overflow-y: hidden; 
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+	
+}

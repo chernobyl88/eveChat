@@ -3,7 +3,7 @@ function post(data,base) {
 	$.ajax({
 		"dataType": "Json",
 		"type":"post",
-	    "data": data,     //$('#formulaire').serialise(),
+	    "data": data,     
 	    "url": base+"/Chat/sendPleinte.php"
 	})
 	.done(function( msg ) {
@@ -16,7 +16,7 @@ $( document ).ready(function() {
 	$("#envoyer").click(function(){
 		if($("#pleinte").val().length >= 100 ) {
 			var pleinte = $('#pleinte').val();
-			post ({ "complaint": pleinte})
+			post ({ "complaint": pleinte},"<?php echo $rootLang;?>")
 		} else {
 			$("#pleinte").css("border-color","red").css("border-style","solid");
 			alertify.error("Veuillez décrire votre plainte <br> 100 Au minimum 100 caractères sont requis" );

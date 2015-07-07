@@ -24,7 +24,7 @@ if (!defined("EVE_APP"))
 	define("ERROR_ON_ADDING_ON_CHAT_SESSION","Un souci technique");
 	define("ERROR_ON_INSERTION_FOR_USER","Un souci technique");
 	define("INVALID_SESSION_ID","Un souci technique");
-	define("FEEDBACK_QUALITY","Qualit&eacute de la conversation");
+	define("FEEDBACK_QUALITY","Expertise du technicien");
 	define("FEEDBACK_POLITESS","Politesse du technicien");
 	define("FEEDBACK_REPLY","R&eacuteponse &agrave la question initiale");
 	define("BAN_CHAT","Vous avez &eacutet&eacute banni");
@@ -33,4 +33,6 @@ if (!defined("EVE_APP"))
 	define("PLAINTETECH","Plainte du technicien");
 	define("CLOSE","Fermer la fen&ecirc;tre");
 	define("BACK","Retour");
+	define("SKIP","Passer");
+	define("COMPLAINT","D&eacuteposer une plainte");
 ?>
