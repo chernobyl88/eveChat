@@ -8,21 +8,21 @@ function post(data,base) {
 		})
 }
 
-	function entree(){
-		$('#message').keyup(function(e) {   
-	        if(e.keyCode == 13) { 
-	          if (e.shiftKey == false){
-	              $('#envoyer').click();
-	          }
-	   		}
-	  	});
-	};
-	  
-	function load(base){
-		$.get("<?php echo $rootLang;?>/Chat/loadMessage.html",function(message){
-			alert("message:" + message)
-		});
-	};
+function callBack() {
+	setTimeout(function(){
+		load("<?php echo $rootLang;?>", JSON.stringify(new Object()));
+	}, 500);
+};
+
+
+
+function load(base){
+	$.get("<?php echo $rootLang;?>/Chat/loadMessage.html",function(message){
+		 $("#display").append($("<div class="main"></div>").append("<div class="id"></div>").append("<div class="date"></div>").append($("<div class="message"></div>").append("message:" + message)))
+	});
+	$("#display").scrollTop($("#display").height());
+	callBack()
+};
 		
 $( document ).ready(function() {
 
@@ -35,13 +35,25 @@ $( document ).ready(function() {
 		    $("#display").append("<div></div>").append($('#message').val());
 		    $("#message").val('');
 		    $('#message').focus();
-		    
 	    } else {
 	        alertify.error("Entrez un message puis cliquez sur Envoyer" );
 		}   
 	});
 
-	load()
+	load();
+	
+
+	function entree(){
+		$('#message').keyup(function(e) {   
+	        if(e.keyCode == 13) { 
+	          if (e.shiftKey == false){
+	              $('#envoyer').click();
+	          }
+	   		}
+	  	});
+	};
+
+
 	
 
 });

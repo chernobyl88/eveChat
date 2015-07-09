@@ -369,7 +369,7 @@ class ChatController extends \Library\BackController {
 	}
 	
 	//user doit etre redéfini pour correspondre au technicien
-	public function executeIndexTech(\Library\HTTPRequest $request){
+	public function executeindexTech(\Library\HTTPRequest $request){
 		if ($this->app->user()->isAuthenticated()){
 			
 		}else {

@@ -55,8 +55,7 @@ body {
 	width: 70%;
     height: 400px;
     background-color: white;
-    overflow-x: hidden;
-    overflow-y: hidden; 
+    overflow: auto;
     padding: 5px;
     margin-bottom: 10px;
     margin-top: 10px;
