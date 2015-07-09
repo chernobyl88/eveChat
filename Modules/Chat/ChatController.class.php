@@ -374,7 +374,7 @@ class ChatController extends \Library\BackController {
 			
 		}else {
 			//route à redéfinir pour aller sur la page connexion du technicien
-			$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
+			//$this->app()->httpResponse()->redirect($this->page()->getVar("rootLang") . "/Chat/");
 		}	
 	}
 	public function executePreference(\Library\HTTPRequest $request){

@@ -35,4 +35,7 @@ if (!defined("EVE_APP"))
 	define("BACK","Retour");
 	define("SKIP","Passer");
 	define("COMPLAINT","D&eacuteposer une plainte");
+	define("WELCOME_MSG","D&eacutefinissez votre message d'accueil :");
+	define("DEFINE_SERVICE","D&eacutefinissez votre domaine d'expertise :");
+	define("DEFINE_NUMBER","D&eacutefinissez combien de clients vous voulez gérer :");
 ?>

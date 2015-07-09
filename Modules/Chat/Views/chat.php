@@ -18,10 +18,18 @@ function callBack() {
 
 function load(base){
 	$.get("<?php echo $rootLang;?>/Chat/loadMessage.html",function(message){
-		 $("#display").append($("<div class="main"></div>").append("<div class="id"></div>").append("<div class="date"></div>").append($("<div class="message"></div>").append("message:" + message)))
+		$("#display").append(
+			$("<div>").addClass("main").append(
+				$("<div>").addClass("id").append(
+					$("<div>").append(
+						$("<div>").addClass("message").html("message:" + message)
+					)
+				)
+			)
+		)
+		$("#display").scrollTop($("#display")[0].scrollHeight);
+		callBack()
 	});
-	$("#display").scrollTop($("#display").height());
-	callBack()
 };
 		
 $( document ).ready(function() {
